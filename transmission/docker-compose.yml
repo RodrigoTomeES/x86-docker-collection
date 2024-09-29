@@ -1,0 +1,25 @@
+# https://hub.docker.com/r/linuxserver/transmission
+
+version: '3.9'
+
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+      - USER=${TRANSMISSION_USER} #optional
+      - PASS=${TRANSMISSION_PASS} #optional
+      - HOST_WHITELIST=dnsnane list #optional
+    volumes:
+      - ${TRANSMISSION_CONFIG}:/config
+      - ${TRANSMISSION_DOWNLOADS}:/downloads
+      - ${TRANSMISSION_WATCH}:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
