@@ -1,0 +1,24 @@
+# https://hub.docker.com/r/linuxserver/plex
+
+version: '3.9'
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:public
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${PLEX_CONFIG}:/config
+      - ${PLEX_TV}:/tv
+      - ${PLEX_MOVIES}:/movies
+      - ${PLEX_MUSIC}:/music
+      - ${PLEX_DOWNLOAD}:/download
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/dvb:/dev/dvb
+    restart: unless-stopped
